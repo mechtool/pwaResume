@@ -1,0 +1,193 @@
+/*-----all-------------------------------------*/
+.secondBackground,.aboutOneselfSection,
+.contentAboutOneself,.headerAboutOneSelf,
+.contentAboutCard,.worksList,
+.worksSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+/*----------------------homeSection----------------------------*/
+.homeSection{
+    background: url("../assets/imgs/cover.jpg") no-repeat fixed;
+    background-position: 50% 0;
+    background-size: cover;
+    z-index: 5;
+    height: 100vh;
+    width: 100%;
+
+    position: absolute;
+    top: 0;
+}
+
+.secondBackground{
+    background: url("../assets/imgs/pattern.png") fixed;
+    background-color: rgba(30, 128, 191, 0.07);
+    height: 100%;
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    animation: animateStart 1200ms forwards;
+}
+.secondBackground>*{
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    color: white;
+    font-size: 34px;
+    transition: font-size 300ms;
+}
+.secondBackground>.headerFull{
+    margin: 0;
+    font-family: 'Lobster', sans-serif;
+}
+.titleToolbar{
+    transition: 400ms;
+}
+.secondBackground>button{
+    background-color: transparent;
+    border: 2px solid;
+}
+.arrowItem{
+    position: absolute;
+    left: 9px ;
+    top: 0px;
+    opacity: 0;
+    font-size: 28px;
+    animation: arrowAnimate 1000ms 200ms infinite;
+}
+.arrowDown {
+    position: absolute;
+    bottom: 25%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+}
+/*--------------------contentSection-------------------------------*/
+.contentSection{
+    position: absolute;
+    top: 100vh;
+    margin-top: 64px;
+}
+/*--------------------toolbar----------------------------*/
+
+.appToolbar{
+    position: absolute;
+    top: 100vh;
+    box-shadow: 0 0 30px #636363;
+    z-index: 5;
+}
+.appToolbar.fixed{
+    position: fixed;
+    top: 0;
+}
+.spacer{
+    flex: 1 1 auto;
+}
+.titleToolbar{
+    font-weight: 300;
+}
+.activeBlock{
+    margin-right: 70px;
+}
+.activeBlock>button{
+    font-weight: 300;
+}
+
+/*---------------aboutOneselfSection-----------------------------*/
+.aboutOneselfSection{
+     background-color: rgba(205, 237, 255, 0.24);;
+}
+.contentAboutCard img{
+    width: 48px;
+    height: 48px;
+}
+.contentHeader{
+    margin: 8px 100px;
+    text-align: left;
+}
+.headerAboutOneSelf{
+    display: block;
+    text-align: center;
+    z-index: -1;
+}
+.headerAboutOneSelf.active{
+    position: relative;
+    animation: headerAboutOneSelf-animation 1000ms forwards;
+}
+.contentAboutOneself{
+    flex-flow: row wrap;
+    position: relative;
+    top: 0;
+}
+.contentAboutOneself > mat-card{
+    transition: 1000ms;
+    width: 110px;
+    height: 110px;
+    flex: 1 1 initial;
+    margin: 20px;
+    font-weight: 300;
+    border: 25px solid #ede8ee;
+}
+.contentAboutOneself > mat-card:nth-child(odd){
+    transform : translateX(-100%)
+}
+.contentAboutOneself > mat-card:nth-child(even){
+    transform : translateX(100%)
+}
+.contentAboutOneself.active > mat-card{
+    transform: translateX(0);
+}
+/*---------------worksSection-------------------------------------*/
+.worksSection{
+   padding-top: 50px;
+}
+mat-card.myWorksCard{
+    padding: 0 24px 24px 24px;
+    transform: translateX(100%);
+    transition: 1000ms;
+}
+mat-card.myWorksCard.active{
+    transform: translateX(0);
+}
+.cardImg{
+    width: 40%;
+    height: 40%;
+    max-height: 300px;
+    max-width: 300px;
+    float: left;
+    display: block;
+    margin-right: 16px;
+}
+
+div.cardContainer{
+    font-family: "Yanone Kaffeesatz", sans-serif;
+    font-size: 18px;
+
+}
+/*---------------animation keyframes-----------------------------*/
+@keyframes arrowAnimate {
+    10%{
+        opacity: 1;
+    }
+    100%{
+        top: 25px;
+        opacity: 0;
+    }
+}
+@keyframes animateStart {
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes headerAboutOneSelf-animation {
+     0%{
+         opacity: 0;
+         transform: translateY(-100px);
+     }
+    100%{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}

@@ -1,0 +1,54 @@
+<section #homeSection class="homeSection">
+	<div class="secondBackground">
+		<p>Привет, меня зовут Ситников Евгений, я - </p>
+		<h4 class="headerFull">Web разработчик полного цикла (Full stack),</h4>
+		<p>создаю отзывчивые Web приложения.</p>
+		<button mat-fab class="arrowDown" (click)="onClickNextButton(1, this.childrenSections)">
+			<mat-icon class="arrowItem" aria-label="Далее" >keyboard_arrow_down</mat-icon>
+		</button>
+	</div>
+</section>
+<mat-toolbar #appToolbar class="appToolbar" color="primary">
+	<span class="titleToolbar" fxShow fxHide.xs >Ситников Евгений</span>
+	<span class="spacer" fxShow fxHide.xs ></span>
+	<div class="activeBlock" >
+		<button mat-button *ngFor="let item of activeBlock; index as inx" (mouseup)="onClickNextButton(inx, this.menuAnchors)" ><span class="textButton" *ngIf="!item.icon">{{item.text}}</span>
+		<i *ngIf="item.icon" class="material-icons" style="transform: rotate(0deg); font-size: 32px;">{{item.icon}}</i>
+		</button>
+	</div>
+</mat-toolbar>
+<section class="contentSection">
+	<section id="aboutOneself" class="aboutOneselfSection">
+		<header #headerAboutOneSelf class="headerAboutOneSelf">
+			<h2>О себе и о навыках.</h2>
+			<p class="contentHeader">Родился в 1970г. в Москве. Занимаюсь Web разработкой и связанными технологиями с 2008г. (с небольшими перерывами). За это время, зная английский язык, занимался самообразованием и освоил несколько технологических стэков, использующихся в клиенской и серверной разработках на JavaScript/TypeScript (некоторые из них демонстрируются в работах ниже). Ранее в своих работах для полного стэка использовал связку <span class="dark-blue">AngularJs / Express(nodejs) / MongoDb</span>, хост которых распологался соответственно на <span class="dark-blue">Heroku</span> и <span class="dark-blue">Mongo Lab</span>. В настоящее время работаю на стеке <span class="dark-blue">Angular 5+ / RxJs / Firebase</span>. В своей работе использую рабочее окружение <span class="dark-blue">WebStorm(Intellij IDEA) / VS-CODE </span>. Отслеживаю современные технологические наработки, через англоязычные источники (Medium, Firebase, Angular, angularfirebase.com и др.), форумы , каналы и личные блоги ведущих разработчиков Google (В.Савкин, М.Коретский, М.Гетчев, Дж.Арчибальд, Дж.Посник, Дж.Делани и др.) Ниже, расположены технологические стэки с которыми работаю, степень освоения которых зависит от текущей специализации, т.е. от задачи, котрая решается в текущий момент. Этот сайт написан на <span class="dark-blue">Angular 5</span>, с использованием <span class="dark-blue">Angular CLI 1.6.*</span>, в которой включена настройка использования сервисного рабочего. Сайт развернут на <span class="dark-blue">Google - Firebase (Hosting)</span>, база данных - <span class="dark-blue">Firebase - RealTime DataBase</span>.</p>
+		</header>
+		<div #contentAboutOneself class="contentAboutOneself">
+			<mat-card *ngFor="let item of contentAbout" [class]="'contentAboutCard mat-card '+ item.className">
+				<img mat-card-image [src]="item.img" alt="{{item.header}}">
+				<mat-card-header>
+					<mat-card-title>{{item.header}}</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>{{item.text}}</mat-card-content>
+			</mat-card>
+		</div>
+	</section>
+	<section id="works" #worksListAnchor class="worksSection">
+		<h2 style="margin-bottom: 0">Некоторые мои работы</h2>
+		<p></p>
+		<div  class="worksList">
+			<mat-card *ngFor="let item of worksList; index as inx" [searchItem]="inx"  [class]="'myWorksCard mat-card '+ item.className" style="margin: 0 24px 24px 24px" [style.background-color]="item.bgcolor" >
+				<mat-card-content class="cardContent">
+					<a target="_blank" [href]="item.href"><img class="cardImg" [src]="item.img"></a>
+					<div class="cardContainer" >
+						<h4 style="margin-bottom: 0; text-align: center">{{item.header}}</h4>
+						<p style="padding-bottom: 0">{{item.text}}
+						<a target="_blank" [href]="item.git">git репозиторий</a></p>
+					</div>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	
+	</section>
+</section>
+

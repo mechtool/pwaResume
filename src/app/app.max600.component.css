@@ -1,0 +1,9 @@
+@media (max-width: 600px){
+    .secondBackground>*:not(.arrowItem){
+        font-size: 24px;
+    }
+    .contentHeader{
+        margin: 8px 30px;
+    }
+
+}

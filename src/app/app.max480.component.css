@@ -1,0 +1,6 @@
+@media (max-width: 480px) {
+    .secondBackground>*:not(.arrowItem){
+        font-size: 18px;
+    }
+
+}

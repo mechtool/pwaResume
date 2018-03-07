@@ -1,31 +1,76 @@
-import { Component } from '@angular/core';
+import {Component, HostListener, QueryList, ViewChildren, ElementRef, Renderer2, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { AppServicesService } from "./services/app-services.service";
+import {SearchItemDirective} from "./directives/search-item.directive";
 
 @Component({
-  selector: 'app-root',
-  template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-    </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    <router-outlet></router-outlet>
-  `,
-  styles: []
+    selector: 'app-root',
+    styleUrls : ['./app.component.css', './app.max600.component.css',  './app.max480.component.css'],
+    templateUrl : './app.component.html',
+    changeDetection : ChangeDetectionStrategy.OnPush,
+    providers : [
+        AppServicesService,
+    ]
 })
 export class AppComponent {
-  title = 'app';
+
+    public activeBlock = [
+	{className : 'works', text : 'РАБОТЫ', icon : false},
+	{className : 'articles', text : 'СТАТЬИ', icon : false},
+	{className : 'contacts', text : 'КОНТАКТЫ', icon : false},
+	{className : 'contacts', text : 'КОНТАКТЫ', icon : 'arrow_drop_up'},
+    ];
+    public contentAbout = [
+	{className : 'htmlCss', text : 'html/css/less', header : '', img : '/assets/imgs/aboutOneSelf/html-css.png'},
+	{className : 'javascript', text : 'javascript/typescript', header : '', img : '/assets/imgs/aboutOneSelf/ts-js.png'},
+	{className : 'firebase', text : 'firebase', header : '', img : 'assets/imgs/aboutOneSelf/firebase.png'},
+	{className : 'angular', text : 'angular', header : '', img : 'assets/imgs/aboutOneSelf/angular.png'},
+	{className : 'nodejs', text : 'nodejs/express', header : '', img : 'assets/imgs/aboutOneSelf/node.jpg'},
+	{className : 'mongo', text : 'mongoDb', header : '', img : 'assets/imgs/aboutOneSelf/mongo.png'},
+	{className : 'angularMaterial', text : 'Material Design', header : '', img : 'assets/imgs/aboutOneSelf/material-design.png'},
+	{className : 'googeExt', text : 'Google Extension', header : '', img : 'assets/imgs/aboutOneSelf/extension.png'},
+    ] ;
+    public worksList = [
+	{className : 'gis-message', text : 'Небольшое приложение расположения данных геолокации на карте. В качестве фильтра использовался гибкий SVG. Реализована серверная аутентификация пользователей средствами FireBase (несколько вариантов). Это приложение - данные чата сообщений поьзователей, расположенные на карте в виде интерактивных окружностей, при активации, отображающие подсказку с датой и авторами сообщений, фильтруемые интерактивным фильтром SVG с изменяемым типом графика по разрезу аналитики - дата сообщения. Возможно сайт не закончен. Подробное описание - на сайте приложения.', header : 'Приложение геолокации', img : 'assets/imgs/worksList/gis.webp', bgcolor : '#fffdf3', href : 'https://gis-message-bdccb.firebaseapp.com/', git : ''},
+	{className : 'pwa-server', text : 'Прогрессивное web приложение (PWA), представляющее сайт переводов статей по теме создания прогрессивных web приложений, использующее смену стилей, согласно техники материального дизайна. Приложение написано, как подготовительное приложеие к видеокурсу по технологии прогрессивных веб приложений и является аккумулятором вышеназванной технологии на русском языке. В нем отрабатывался механизм сквозного общения компонентов с помощью реактивного объекта Subject<any>. Вся компоновка произведена стредствами Angular CLI с настройкой сервисного рабочего и файла манифеста, поэтому его можно открыть на мобильном устройстве и установить значек на пользовательский экран, согласно технике PWA. Возможно, сайт не закончен.', header : 'Прогрессивные веб приложения.', img : 'assets/imgs/worksList/pwa.jpg', bgcolor : '#fffdf3', href : 'https://pwaserver.firebaseapp.com/', git : ''},
+	{className : 'firebase-server', text : 'Сайт о технологиях Google - Firebase. Перевод оригинальной документации с сайта firebase.com. Это - прогрессивное web приложение, так же, написанное в вышеупомянутой технике.  Не закончен.', header : 'Сайт документации Firebase.', img : 'assets/imgs/worksList/firebase.webp', bgcolor : '#fffdf3', href : 'https://fir-server-f28e1.firebaseapp.com', git : ''},
+	{className : 'material-server', text : 'Сайт документации Angular Material, написан на Express с хостом на Heroku. В общем то ничего особого. ', header : 'Сайт документации Material Design для Angular', img : 'assets/imgs/worksList/mat-des.png', bgcolor : '#fffdf3', href : 'https://angular-material-server.herokuapp.com/', git : ''},
+	];
+
+    constructor(private renderer : Renderer2, private changeRef : ChangeDetectorRef, public appService : AppServicesService){}
+    
+    @ViewChildren('worksListAnchor,homeSection') public menuAnchors : QueryList<ElementRef>;
+    @ViewChildren('homeSection, appToolbar, headerAboutOneSelf, contentAboutOneself', {read : ElementRef }) public childrenSections : QueryList<ElementRef> ;
+    @ViewChildren(SearchItemDirective, {read : ElementRef}) searchItems : QueryList<ElementRef>;
+    
+    @HostListener('window:scroll', ['$event']) public onScrollWindow ($event){
+	let scrollTop = $event.currentTarget.pageYOffset,
+	    childrenArr = this.childrenSections.toArray().concat(this.searchItems.toArray());
+	childrenArr.forEach((el, inx) => {
+	    let elem = el.nativeElement,
+		bounding = elem.getBoundingClientRect();
+	    if(inx == 0 && bounding.bottom > 0){
+	        let y = bounding.bottom > $event.currentTarget.innerHeight ? '0px' : (bounding.bottom /$event.currentTarget.innerHeight * 100) - 100 +'px'; //движение изображения фона при скроллировании
+		this.renderer.setStyle(elem, "background-position-y", y);
+	    }
+	    else if(inx == 1){
+	        let trigger = (scrollTop + 5 ) <= $event.currentTarget.innerHeight;
+		trigger ?  this.renderer.removeClass(elem, "fixed"): this.renderer.addClass(elem,  "fixed");//фиксация панели инструментов
+	    }
+	    else if((inx == 2 || 3 ) && bounding.top <= $event.currentTarget.innerHeight ){//headerAboutOneSelf, contentAboutOneself
+	       elem.classList.add('active');
+	    }
+	    else if((inx > 3 ) && bounding.top <= $event.currentTarget.innerHeight ){
+		elem.classList.add('active');
+		debugger;
+	    }
+	    this.changeRef.detectChanges();
+	});
+
+    } ;
+    
+    onClickNextButton(inx, collection){
+	let element = collection.toArray()[inx].nativeElement;
+	this.appService.setScroll({element : element, content : null, duration : 1000}) ;
+    }
+
 }
