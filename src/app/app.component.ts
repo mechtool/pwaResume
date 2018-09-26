@@ -1,4 +1,4 @@
-import {Component, HostListener, QueryList, ViewChildren, ElementRef, Renderer2, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostListener, QueryList, ViewChildren, ElementRef, Renderer2, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { AppServicesService } from "./services/app-services.service";
 import {SearchItemDirective} from "./directives/search-item.directive";
 
@@ -13,11 +13,13 @@ import {SearchItemDirective} from "./directives/search-item.directive";
 })
 export class AppComponent {
 
+    public adminPanel = false;
     public activeBlock = [
-	{className : 'works', text : 'РАБОТЫ', icon : false},
-	{className : 'articles', text : 'СТАТЬИ', icon : false},
-	{className : 'contacts', text : 'КОНТАКТЫ', icon : false},
-	{className : 'contacts', text : 'КОНТАКТЫ', icon : 'arrow_drop_up'},
+	{className : 'works', text : 'РАБОТЫ', icon : false, title : 'Некоторые работы'},
+	{className : 'articles', text : 'СТАТЬИ', icon : false, title : 'Переводы статей'},
+	{className : 'contacts', text : 'КОНТАКТЫ', icon : false, title : 'Контакты для связи'},
+	{className : 'goTop', text : '', icon : 'arrow_drop_up', title : 'Вверх'},
+	{className : 'adminBlock',text : '', icon : 'brightness_auto', title : 'Для администраторов'},
     ];
     public contentAbout = [
 	{className : 'htmlCss', text : 'html/css/less', header : '', img : '/assets/imgs/aboutOneSelf/html-css.png'},
@@ -30,15 +32,15 @@ export class AppComponent {
 	{className : 'googeExt', text : 'Google Extension', header : '', img : 'assets/imgs/aboutOneSelf/extension.png'},
     ] ;
     public worksList = [
-	{className : 'gis-message', text : 'Небольшое приложение расположения данных геолокации на карте. В качестве фильтра использовался гибкий SVG. Реализована серверная аутентификация пользователей средствами FireBase (несколько вариантов). Это приложение - данные чата сообщений поьзователей, расположенные на карте в виде интерактивных окружностей, при активации, отображающие подсказку с датой и авторами сообщений, фильтруемые интерактивным фильтром SVG с изменяемым типом графика по разрезу аналитики - дата сообщения. Возможно сайт не закончен. Подробное описание - на сайте приложения.', header : 'Приложение геолокации', img : 'assets/imgs/worksList/gis.webp', bgcolor : '#fffdf3', href : 'https://gis-message-bdccb.firebaseapp.com/', git : ''},
-	{className : 'pwa-server', text : 'Прогрессивное web приложение (PWA), представляющее сайт переводов статей по теме создания прогрессивных web приложений, использующее смену стилей, согласно техники материального дизайна. Приложение написано, как подготовительное приложеие к видеокурсу по технологии прогрессивных веб приложений и является аккумулятором вышеназванной технологии на русском языке. В нем отрабатывался механизм сквозного общения компонентов с помощью реактивного объекта Subject<any>. Вся компоновка произведена стредствами Angular CLI с настройкой сервисного рабочего и файла манифеста, поэтому его можно открыть на мобильном устройстве и установить значек на пользовательский экран, согласно технике PWA. Возможно, сайт не закончен.', header : 'Прогрессивные веб приложения.', img : 'assets/imgs/worksList/pwa.jpg', bgcolor : '#fffdf3', href : 'https://pwaserver.firebaseapp.com/', git : ''},
-	{className : 'firebase-server', text : 'Сайт о технологиях Google - Firebase. Перевод оригинальной документации с сайта firebase.com. Это - прогрессивное web приложение, так же, написанное в вышеупомянутой технике.  Не закончен.', header : 'Сайт документации Firebase.', img : 'assets/imgs/worksList/firebase.webp', bgcolor : '#fffdf3', href : 'https://fir-server-f28e1.firebaseapp.com', git : ''},
-	{className : 'material-server', text : 'Сайт документации Angular Material, написан на Express с хостом на Heroku. В общем то ничего особого. ', header : 'Сайт документации Material Design для Angular', img : 'assets/imgs/worksList/mat-des.png', bgcolor : '#fffdf3', href : 'https://angular-material-server.herokuapp.com/', git : ''},
+	{className : 'gis-message', text : 'Небольшое приложение расположения данных геолокации на карте. В качестве фильтра использовался гибкий SVG. Реализована серверная аутентификация пользователей средствами FireBase (несколько вариантов). Это приложение - данные чата сообщений поьзователей, расположенные на карте в виде интерактивных окружностей, при активации, отображающие подсказку с датой и авторами сообщений, фильтруемые интерактивным фильтром SVG с изменяемым типом графика по разрезу аналитики - дата сообщения. Возможно, сайт не закончен. Подробное описание - на сайте приложения.', header : 'Приложение геолокации', img : 'assets/imgs/worksList/gis.webp', bgcolor : '#fffdf3', href : 'https://gis-message-bdccb.firebaseapp.com/', git : 'https://github.com/mechtool/google-map-messages'},
+	{className : 'pwa-server', text : 'Прогрессивное web приложение (PWA), представляющее сайт переводов статей по теме создания прогрессивных web приложений, использующее смену стилей, согласно техники материального дизайна. Приложение написано, как подготовительное приложеие к видеокурсу по технологии прогрессивных веб приложений и является аккумулятором вышеназванной технологии на русском языке. В нем отрабатывался механизм сквозного общения компонентов с помощью реактивного объекта Subject<any>. Вся компоновка произведена стредствами Angular CLI с настройкой сервисного рабочего и файла манифеста, поэтому его можно открыть на мобильном устройстве и установить значек на пользовательский экран, согласно технике PWA. Возможно, сайт не закончен.', header : 'Прогрессивные веб приложения.', img : 'assets/imgs/worksList/pwa.jpg', bgcolor : '#fffdf3', href : 'https://pwaservernext.firebaseapp.com/', git : 'https://github.com/mechtool/pwa-second-firebase'},
+	{className : 'firebase-server', text : 'Сайт о технологиях Google - Firebase. Перевод оригинальной документации с сайта firebase.com. Это - прогрессивное web приложение, так же, написанное в вышеупомянутой технике, на котором завершены структурные блоки (блок анимации страниц, блок коммуникации компонентов, блок формирования структуры меню и др.), необходимые для расширения приложения информацией. Писался через Angular CLI, с маршрутизацией (angular router) и пр. Не закончен.', header : 'Сайт документации Firebase.', img : 'assets/imgs/worksList/firebase.webp', bgcolor : '#fffdf3', href : 'https://fir-server-f28e1.firebaseapp.com', git : ''},
+	{className : 'material-server', text : 'Сайт документации Angular Material, написан на Express с хостом на Heroku. В общем то ничего особого. Реализован немного в другой технике, чем приложения выше (т.е. писался простенький экземпляр Express, без шаблонизатора, с простой раздачей статики). Компоновка на прямую webpack', header : 'Сайт документации Material Design для Angular', img : 'assets/imgs/worksList/mat-des.png', bgcolor : '#fffdf3', href : 'https://angular-material-server.herokuapp.com/', git : 'https://github.com/mechtool/angularMaterialServer'},
 	];
 
     constructor(private renderer : Renderer2, private changeRef : ChangeDetectorRef, public appService : AppServicesService){}
     
-    @ViewChildren('worksListAnchor,homeSection') public menuAnchors : QueryList<ElementRef>;
+    @ViewChildren('worksListAnchor, articlesAnchor, contactsAnchor, homeSection') public menuAnchors : QueryList<ElementRef>;
     @ViewChildren('homeSection, appToolbar, headerAboutOneSelf, contentAboutOneself', {read : ElementRef }) public childrenSections : QueryList<ElementRef> ;
     @ViewChildren(SearchItemDirective, {read : ElementRef}) searchItems : QueryList<ElementRef>;
     
@@ -61,14 +63,19 @@ export class AppComponent {
 	    }
 	    else if((inx > 3 ) && bounding.top <= $event.currentTarget.innerHeight ){
 		elem.classList.add('active');
-		debugger;
 	    }
 	    this.changeRef.detectChanges();
 	});
 
     } ;
     
-    onClickNextButton(inx, collection){
+    onClickNextButton(inx, collection, $event){
+	if(inx == 5){
+	    let current = $event.currentTarget;
+	    this.adminPanel = ! this.adminPanel;
+	    current.style.backgroundColor = this.adminPanel ? '#663399' : '';
+	    return false;
+	}
 	let element = collection.toArray()[inx].nativeElement;
 	this.appService.setScroll({element : element, content : null, duration : 1000}) ;
     }

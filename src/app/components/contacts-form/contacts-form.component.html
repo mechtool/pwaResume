@@ -1,0 +1,24 @@
+<form class="contactsForm" [formGroup]="contactsFormGroup"  novalidate #f >
+	<mat-form-field floatPlaceholder="auto">
+		<i matSuffix class="material-icons">person</i>
+		<input matInput required
+		       type="text"
+		       formControlName="name"
+		       placeholder="Ваше имя">
+	</mat-form-field>
+	<mat-form-field floatPlaceholder="auto">
+		<i matSuffix class="material-icons">email</i>
+		<input matInput required
+		       type="email"
+		       formControlName="email"
+		       placeholder="Email для связи">
+	</mat-form-field>
+	<mat-form-field floatPlaceholder="auto" >
+		<i matSuffix class="material-icons">message</i>
+		<textarea matInput required
+		          matTextareaAutosize
+		          formControlName="message"
+		          placeholder="Ваше сообщение"></textarea>
+	</mat-form-field>
+	<button mat-button class="sendButton" type="submit" [disabled]="contactsFormGroup.invalid" (click)="onSubmitForm(f)">Отправить сообщение</button>
+</form>

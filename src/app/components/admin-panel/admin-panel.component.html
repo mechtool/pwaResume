@@ -1,0 +1,20 @@
+<section class="adminFormSection">
+	<form [formGroup]="adminFormGroup" novalidate #f>
+		<mat-form-field class="formField" floatPlaceholder="auto">
+			<input matInput required
+			       type="text"
+			       formControlName="adminPass"
+			       placeholder="Введите пароль">
+		</mat-form-field>
+		<button mat-button [disabled]="adminFormGroup.invalid" (click)="onClickForm(f)" *ngIf="!loader"><span >Отправить</span></button>
+		<mat-spinner *ngIf="loader" [diameter]="30" [mode]="'indeterminate'" style="display: inline; margin-left: 30px"></mat-spinner>
+	</form>
+	<div class="dataSection">
+		<div class="dataSectionItem" *ngFor="let item of adminData | async">
+			<div ><span style="color: #006a8d">Имя : </span> <span class="name">{{item.name}}</span><br>
+				<span style="color: #006a8d" >Email : </span> <span class="email">{{item.email}}</span>
+			</div>
+			<div style="overflow: auto" class="itemMessage"><span style="color: #006a8d">Сообщение : </span> <div>{{item.message}}</div></div>
+		</div>
+	</div>
+</section>

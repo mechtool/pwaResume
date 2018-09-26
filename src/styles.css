@@ -1,11 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
 @import "normalize.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
-body{
+html{
+    overflow-x: hidden;
+}
+body, mat-card.mat-card{
     font-family: 'Yanone Kaffeesatz', sans-serif;
 }
+/*------------colors-------------------*/
+*[class^='dark']{
+    font-weight: 400;
+}
 .dark-blue{
-    color: #060070;
-    font-weight: 300;
+    color: #0700b1;
+}
+.dark-green{
+   color: #006a04;
+}
+.dark-red{
+    color: #9d0000;
+}
+.dark-brown{
+    color: #773b00;
+}
+
+
+/*---------------message form-------------*/
+div.mat-input-suffix.mat-form-field-suffix{
+    position: relative;
+    top: 6px;
+    margin-right: 7px;
+}
+/*----------article------------*/
+.articlesSection > .article{
+    width: calc(100% - 48px);
+    margin: 24px;
+}
+/*------------code sample-----------------------*/
+.codeSample{
+    font-family:  Menlo, Monaco, "Courier New", Courier, monospace;
+    background-color: #ebebeb;
+    padding: 24px;
+    font-size: 18px;
+    overflow: auto;
 }

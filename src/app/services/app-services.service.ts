@@ -1,10 +1,18 @@
 import {Inject, Injectable, Renderer2} from "@angular/core";
+import {environment} from "../../environments/environment";
+import * as firebase from "firebase";
 import {DOCUMENT} from "@angular/common";
 
 @Injectable()
-export class AppServicesService{
-
-    constructor(@Inject(DOCUMENT) public document : Document, public renderer : Renderer2){}
+export class AppServicesService {
+    
+    db : any;
+    auth : any;
+    
+    constructor(@Inject(DOCUMENT) public document : Document, public renderer : Renderer2){
+	this.db = this.startFireBase();
+	this.auth = firebase.auth();
+    }
 
     public setScroll(option){ //option.element - элемент, источник значения;
 	//option.content - элемент, владелец scroll
@@ -20,4 +28,26 @@ export class AppServicesService{
 	    }
 	});
     } ;
+    
+    startFireBase(){
+	firebase.initializeApp(environment.fireBaseConfig);
+	return firebase.database();
+    }
+    getDataServer(){
+	let that = this;
+	return new Promise((res, rej) => {
+	    that.db.ref('messages').orderByChild('dateNumber').on('value', (querySnapshot) => {
+		res(querySnapshot.val());
+	    })
+	});
+    }
+    setDataServer(data){
+        debugger;
+	this.db.ref('messages').push(data, (err) => {
+	    console.log(err ? err : 'сообщение сохранено.')
+	});
+    }
+}
+export class DataMessage{
+    constructor( public name : string, public email : string, public message : string){}
 }

@@ -13,5 +13,5 @@ let fireBaseConfig = {
 
 export const environment = {
     production: false,
-    fireConfig : fireBaseConfig,
+    fireBaseConfig: fireBaseConfig,
 };

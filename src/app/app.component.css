@@ -2,7 +2,7 @@
 .secondBackground,.aboutOneselfSection,
 .contentAboutOneself,.headerAboutOneSelf,
 .contentAboutCard,.worksList,
-.worksSection{
+.worksSection,.articlesSection,.contactsSection{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,9 +17,6 @@
     z-index: 5;
     height: 100vh;
     width: 100%;
-
-    position: absolute;
-    top: 0;
 }
 
 .secondBackground{
@@ -66,8 +63,6 @@
 }
 /*--------------------contentSection-------------------------------*/
 .contentSection{
-    position: absolute;
-    top: 100vh;
     margin-top: 64px;
 }
 /*--------------------toolbar----------------------------*/
@@ -164,6 +159,17 @@ mat-card.myWorksCard.active{
 div.cardContainer{
     font-family: "Yanone Kaffeesatz", sans-serif;
     font-size: 18px;
+}
+/*---------------articlesSection-------------------------*/
+.articlesSection{
+    background-color: rgb(253, 255, 220);
+    min-height: 100vh;
+}
+
+/*--------------contactsSection--------------------------*/
+.contactsSection{
+    background-color: #effff8;
+    min-height: 100vh;
 
 }
 /*---------------animation keyframes-----------------------------*/
