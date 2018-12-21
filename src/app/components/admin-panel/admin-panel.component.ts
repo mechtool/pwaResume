@@ -26,7 +26,7 @@ export class AdminPanelComponent{
     onClickForm(f){
         this.loader = true;
         this.http.get('/adminData', {params : {pass : f[0].value}}).subscribe((data) => {
-            this.loader = false;
+	    this.loader = false;
 	    console.log(data) ;
 	    this.obsData.next(data);
        });
