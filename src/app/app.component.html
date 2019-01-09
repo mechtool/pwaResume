@@ -44,14 +44,14 @@
 					<div class="cardContainer" >
 						<h4 style="margin-bottom: 0; text-align: center">{{item.header}}</h4>
 						<p style="padding-bottom: 0">{{item.text}}
-						<a target="_blank" [href]="item.git">git репозиторий</a></p>
+							<a target="_blank" [href]="item.git">git репозиторий</a></p>
 					</div>
 				</mat-card-content>
 			</mat-card>
 		</div>
 	</section>
-	<section id="articles" #articlesAnchor class="articlesSection">
-		<router-outlet ></router-outlet>
+	<section id="articles" #articlesAnchor class="articlesSection" [@routerTrigger]="getRouterOutletState(mainOutlet)">
+		<router-outlet #mainOutlet="outlet"></router-outlet>
 	</section>
 	<section id="contacts" #contactsAnchor class="contactsSection">
 		<h4>Контакты</h4>

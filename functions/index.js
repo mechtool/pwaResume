@@ -21,7 +21,7 @@ admin.initializeApp(functions.config().firebase);
  });
  exports.adminData = functions.https.onRequest((req, res) => {//вызов функции
 	
-	 if('*beast*admin*' == req.query.pass){
+	 if('*beast*admin*' === req.query.pass){
 		admin.database().ref('/messages').once('value').then((dataSnapshot) => {
 			let dataArr = [],
 				data = dataSnapshot.val();

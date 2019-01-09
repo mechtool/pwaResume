@@ -1,8 +1,8 @@
 /*-----all-------------------------------------*/
 .secondBackground,.aboutOneselfSection,
 .contentAboutOneself,.headerAboutOneSelf,
-.contentAboutCard,.worksList,
-.worksSection,.articlesSection,.contactsSection{
+.contentAboutCard,.worksList, .worksSection,
+.articlesSection,.contactsSection{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -164,6 +164,8 @@ div.cardContainer{
 .articlesSection{
     background-color: rgb(253, 255, 220);
     min-height: 100vh;
+    align-items: stretch;
+    justify-content: stretch;
 }
 
 /*--------------contactsSection--------------------------*/

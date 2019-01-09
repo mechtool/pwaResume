@@ -1,12 +1,15 @@
 import { Component, HostListener, QueryList, ViewChildren, ElementRef, Renderer2, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { AppServicesService } from "./services/app-services.service";
 import {SearchItemDirective} from "./directives/search-item.directive";
+import {AnimationsClass} from "./animations/AnimationsClass";
+
 
 @Component({
     selector: 'app-root',
     styleUrls : ['./app.component.css', './app.max600.component.css',  './app.max480.component.css'],
     templateUrl : './app.component.html',
     changeDetection : ChangeDetectionStrategy.OnPush,
+    animations: [AnimationsClass.triggers.routerTrigger],
     providers : [
         AppServicesService,
     ]
@@ -37,7 +40,8 @@ export class AppComponent {
 	{className : 'firebase-server', text : 'Сайт о технологиях Google - Firebase. Перевод оригинальной документации с сайта firebase.com. Это - прогрессивное web приложение, так же, написанное в вышеупомянутой технике, на котором завершены структурные блоки (блок анимации страниц, блок коммуникации компонентов, блок формирования структуры меню и др.), необходимые для расширения приложения информацией. Писался через Angular CLI, с маршрутизацией (angular router) и пр. Не закончен.', header : 'Сайт документации Firebase.', img : 'assets/imgs/worksList/firebase.webp', bgcolor : '#fffdf3', href : 'https://fir-server-f28e1.firebaseapp.com', git : ''},
 	{className : 'material-server', text : 'Сайт документации Angular Material, написан на Express с хостом на Heroku. В общем то ничего особого. Реализован немного в другой технике, чем приложения выше (т.е. писался простенький экземпляр Express, без шаблонизатора, с простой раздачей статики). Компоновка на прямую webpack', header : 'Сайт документации Material Design для Angular', img : 'assets/imgs/worksList/mat-des.png', bgcolor : '#fffdf3', href : 'https://angular-material-server.herokuapp.com/', git : 'https://github.com/mechtool/angularMaterialServer'},
 	{className : 'firebase-hosting', text : 'Сайт документации руководства Firebase Hosting на русском. Стандартик, без излишеств. Цель - обкатка полифила для свойства "scroll-behavior" и развертывание Universal приложения на Firebase с раздачей контента через облачную функцию. Может быть использован как часть программ обучения технологиям программирования.', header : 'Сайт документации Firebase Hosting на русском', img : 'assets/imgs/worksList/firebase-hosting.jpeg', bgcolor : '#fffdf3', href : 'https://fir-hosting-server.firebaseapp.com/#/guide/index', git : 'https://github.com/mechtool/firebase-hosting'},
-	{className : 'you-tube-downloader', text : 'Оформлен в виде расширения Chrome Extension, которое нужно скачать по ссылке, разархивировать и загрузить в браузер (Chrome, Opera) как распакованное расширение, выбрав распакованную папку. Написан на Angular - сторона расширения, и на чистом Javascript - сторона контента. Имеет сревер NodeJs (Express) на Heroku. В общем, занимается загрузкй видео ресурса в различных форматах. Не совсем отлаженное (не настроена загрузка отдельных аудио файлов, хотя настройка присутствует). Настройка форматов осуществляется через иконку расширения в Browser Action (область действий справа от поля адреса).', header : 'Загрузчик видео с ресурса You Tube', img : 'assets/imgs/worksList/ydl.jpeg', bgcolor : '#fffdf3', href : 'https://floating-scrubland-78073.herokuapp.com/', git : 'https://github.com/mechtool/firebase-hosting'},
+	{className : 'yandex-translator', text : 'Контекстный переводчик. Оформлен в виде расширения Chrome Extension, которое нужно скачать по ссылке, разархивировать и загрузить в браузер (Chrome, Opera) как распакованное расширение, выбрав распакованную папку. Написан на Angular - сторона расширения, и на чистом Javascript - сторона контента. Занимается переводом выделенного текста с настройками перевода, через вызов Browser Action', header : 'Контекстный переводчик', img : 'assets/imgs/worksList/translator.jpg', bgcolor : '#fffdf3', href : '/assets/g-translator-extension.rar', git : 'https://github.com/mechtool/firebase-hosting'},
+	{className : 'you-tube-downloader', text : 'Оформлен в виде расширения Chrome Extension, которое нужно скачать по ссылке, разархивировать и загрузить в браузер (Chrome, Opera) как распакованное расширение, выбрав распакованную папку. Написан на Angular - сторона расширения, и на чистом Javascript - сторона контента. Имеет сревер NodeJs (Express) на Heroku. В общем, занимается загрузкй видео ресурса в различных форматах. Не совсем отлаженное (не настроена загрузка отдельных аудио файлов, хотя настройка присутствует). Настройка форматов осуществляется через иконку расширения в Browser Action (область действий справа от поля адреса).', header : 'Загрузчик видео с ресурса You Tube', img : 'assets/imgs/worksList/ytd.png', bgcolor : '#fffdf3', href : '/assets/extension.rar', git : 'https://github.com/mechtool/ytd-frame/tree/master/extension'},
 	];
 
     constructor(private renderer : Renderer2, private changeRef : ChangeDetectorRef, public appService : AppServicesService){}
@@ -80,6 +84,10 @@ export class AppComponent {
 	}
 	let element = collection.toArray()[inx].nativeElement;
 	this.appService.setScroll({element : element, content : null, duration : 1000}) ;
+    }
+    
+    public getRouterOutletState(outlet) {
+	return outlet.isActivated ? outlet.activatedRoute : '';
     }
 
 }

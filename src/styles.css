@@ -1,6 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 @import "normalize.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/materialIcons.woff2") format('woff2');
+}
+@font-face {
+    font-family: 'Yanone Kaffeesatz';
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/YanoneKaffeesatz-Light.ttf");
+}
+
+@font-face {
+    font-family: 'Lobster';
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/Lobster-Regular.ttf") ;
+}
+
+.material-icons {
+    font-family: 'Material Icons', sans-serif;
+    font-style: initial;
+}
 html{
     overflow-x: hidden;
 }

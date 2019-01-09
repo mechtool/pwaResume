@@ -1,6 +1,5 @@
-<mat-card class="article" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
-          xmlns="http://www.w3.org/1999/html">
-	<address>Перевод статьи Максима Корецкого <a target="_blank" href="https://blog.angularindepth.com/exploring-angular-dom-abstractions-80b3ebcfc02">Exploring Angular DOM manipulation techniques using ViewContainerRef</a></address>
+<mat-card class="article" >
+	<address>Перевод статьи Максима Корецкого <a target="_blank" href="https://blog.angularindepth.com/exploring-angular-dom-abstractions-80b3ebcfc02">Exploring Angular DOM manipulation techniques using ViewContainerRef</a></address><a style="position: absolute; right: 40px; text-decoration: none" routerLink="/">Назад</a>
 	<h4>Изучение техники DOM манипуляций, используя абстакцию <span class="dark-blue">ViewContainerRef</span></h4>
 	<p>Всякий раз, когда я читаю статьи о работе с DOM в Angular, я часто натыкаюсь на классы <span class="dark-blue">ElementRef, TemplateRef, ViewContainerRef</span> и тому подобные. К сожалению, хотя некоторые из них и упоминаються в документации по Angular и документоподобных статьях, я еще не находил описание полной ментальной модели и примеров работы этих сущностей вместе. Цель данной статьи - описание подобной модели. <br>
 	Если вы пришли с <span class="dark-blue">angular.js</span>, вы знаете, что в нем было довольно легко манипулировать DOM. Angular инжектировал DOM элемент в связующую функцию, и можно было обратиться к любому интересующему узлу в пределах шаблона компонента, добавлять и удалять дочерние узлы, модифицировать стили и т.д. Однако, подобный подход имел большой недостаток - тесная привязка к браузеру.<br>
