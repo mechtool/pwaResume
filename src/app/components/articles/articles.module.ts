@@ -9,7 +9,7 @@ import { MatCardModule } from "@angular/material";
 
 @NgModule({
     declarations : [
-        StartPageComponent
+        StartPageComponent,
     ] ,
     imports : [
         CommonModule,

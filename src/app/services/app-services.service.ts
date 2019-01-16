@@ -21,11 +21,12 @@ export class AppServicesService {
 	    content = option.content  ? option.content : this.document.documentElement ,
 	    bounding = option.element.getBoundingClientRect(),
 	    steps = option.duration / 1000 * 24;
-	this.document.defaultView.requestAnimationFrame(function animate() {
-	    that.renderer.setProperty(content, 'scrollTop', content.scrollTop + (Math.round(bounding.top / steps)));
-	    if(++left < steps){
-		that.document.defaultView.requestAnimationFrame(animate);
-	    }
+	this.document.defaultView.requestAnimationFrame(
+	    function animate() {
+		that.renderer.setProperty(content, 'scrollTop', content.scrollTop + (Math.round(bounding.top / steps)));
+		if(++left < steps){
+		    that.document.defaultView.requestAnimationFrame(animate);
+		}
 	});
     } ;
     
