@@ -36,7 +36,7 @@ body, mat-card.mat-card{
     font-weight: 400;
 }
 .dark-blue{
-    color: #0700b1;
+    color: #07009e;
 }
 .dark-green{
    color: #006a04;
@@ -60,6 +60,10 @@ div.mat-input-suffix.mat-form-field-suffix{
     width: calc(100% - 48px);
     margin: 24px;
 }
+.articlesSection > .article > mat-card{
+    padding-left: 40px;
+    padding-right: 40px;
+}
 /*------------code sample-----------------------*/
 .codeSample{
     font-family:  Menlo, Monaco, "Courier New", Courier, monospace;
@@ -67,4 +71,7 @@ div.mat-input-suffix.mat-form-field-suffix{
     padding: 24px;
     font-size: 18px;
     overflow: auto;
+}
+pre{
+     padding: 16px;
 }

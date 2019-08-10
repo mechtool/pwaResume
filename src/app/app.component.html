@@ -36,7 +36,7 @@
 	</section>
 	<section id="works" #worksListAnchor class="worksSection">
 		<h2 style="margin-bottom: 0">Некоторые мои работы</h2>
-		<p style="padding: 0 24px">Все они написаны на Angular 5.*, компановка Angular CLI с загрузкой модулей по требованию (Lazy Loading), используя предкомпиляцию (AOT). Техникой написания некоторых приложений стала техника PWA(прогрессивных веб приложений), без настройки стратегий кэширования (используются настройки по умолчанию), настройки которой предлагаются в Angular CLI выше версии 1.6.*. Каждому приложению можно заглянуть в не аглифицированный и не модифицированный GIT.</p>
+		<p style="padding: 0 24px">Все они написаны на Angular 5.*, компановка Angular CLI с загрузкой модулей по требованию (Lazy Loading), используя предкомпиляцию (AOT). Техникой написания некоторых приложений стала техника PWA(прогрессивных веб приложений), без настройки стратегий кэширования (используются настройки по умолчанию), настройки которой предлагаются в Angular CLI выше версии 1.6.*. Каждому приложению можно заглянуть в GIT. Некоторые работы незакончены.</p>
 		<div  class="worksList">
 			<mat-card *ngFor="let item of worksList; index as inx" [searchItem]="inx"  [class]="'myWorksCard mat-card '+ item.className" style="margin: 0 24px 24px 24px" [style.background-color]="item.bgcolor" >
 				<mat-card-content class="cardContent">

@@ -1,0 +1,20 @@
+:host /deep/ pre {
+    line-height: 26px
+}
+.sample-container{
+    box-shadow: 0 0 20px #c8c8c8;
+}
+.sample-header-container{
+    display: flex;
+    padding: 16px;
+    background: #d5dcff;
+}
+.sample-header{
+    flex: 80%;
+}
+.content-point{
+    overflow: auto;
+    font-weight: 300;
+    font-size: 16px;
+}
+

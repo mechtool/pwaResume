@@ -8,3 +8,25 @@
 .articleHeader{
     text-align: center;
 }
+li.table-element{
+    margin: 8px;
+}
+.dist-folder-img, .start-service-worker-img, .ngsw5-img{
+    text-align: center;
+}
+.dist-folder-img img{
+    min-width: 300px;
+    max-width: 500px;
+    width: 40%;
+    box-shadow: 0 0 20px #c8c8c8;
+}
+.start-service-worker-img img{
+    min-width: 300px;
+    width: 50%;
+    box-shadow: 0 0 20px #c8c8c8;
+}
+.ngsw5-img img{
+    min-width: 400px;
+    width: 70%;
+    box-shadow: 0 0 20px #c8c8c8;
+}
