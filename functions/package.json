@@ -13,5 +13,8 @@
     "firebase-functions": "^0.8.1",
     "nodemailer": "^4.6.2"
   },
+  "engines": {
+    "node": "8"
+  },
   "private": true
 }
