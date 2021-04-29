@@ -10,14 +10,14 @@
 @font-face {
     font-family: 'Yanone Kaffeesatz';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     src: url("assets/fonts/YanoneKaffeesatz-Light.ttf");
 }
 
 @font-face {
     font-family: 'Lobster';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     src: url("assets/fonts/Lobster-Regular.ttf") ;
 }
 
@@ -33,7 +33,7 @@ body, mat-card.mat-card{
 }
 /*------------colors-------------------*/
 *[class^='dark']{
-    font-weight: 400;
+    font-weight: 500;
 }
 .dark-blue{
     color: #07009e;

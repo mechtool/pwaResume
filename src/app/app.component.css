@@ -134,6 +134,9 @@
 .contentAboutOneself.active > mat-card{
     transform: translateX(0);
 }
+ul.check-list{
+    text-align: left;
+}
 /*---------------worksSection-------------------------------------*/
 .worksSection{
    padding-top: 50px;
