@@ -2,13 +2,13 @@
 <div class="article-container">
 	<mat-card *ngFor="let item of articles" >
 		<mat-card-content class="cardContent">
-			<a [routerLink] ="item.href">
+			<a class="art-click" [routerLink] ="item.href">
 				<img class="cardImg" [src]="item.img">
+				<div class="cardContainer" >
+					<h4 style="margin-bottom: 0; text-align: center">{{item.header}}</h4>
+					<p style="padding-bottom: 0">{{item.text}}</p>
+				</div>
 			</a>
-			<div class="cardContainer" >
-				<h4 style="margin-bottom: 0; text-align: center">{{item.header}}</h4>
-				<p style="padding-bottom: 0">{{item.text}}</p>
-			</div>
 		</mat-card-content>
 	</mat-card>
 </div>

@@ -1,4 +1,4 @@
-<section #homeSection class="homeSection" xmlns="http://www.w3.org/1999/html">
+<div #homeSection class="homeSection" xmlns="http://www.w3.org/1999/html">
 	<div class="secondBackground">
 		<p>Привет, меня зовут Ситников Евгений, я - </p>
 		<h4 class="headerFull">Web разработчик полного цикла (Full stack),</h4>
@@ -7,7 +7,7 @@
 			<mat-icon class="arrowItem" aria-label="Далее" >keyboard_arrow_down</mat-icon>
 		</button>
 	</div>
-</section>
+</div>
 <mat-toolbar #appToolbar class="appToolbar" color="primary">
 	<span class="titleToolbar" fxShow fxHide.xs >Ситников Евгений</span>
 	<span class="spacer" fxShow fxHide.xs ></span>
@@ -19,10 +19,27 @@
 	<app-admin-panel *ngIf="adminPanel"></app-admin-panel>
 </mat-toolbar>
 <section class="contentSection">
-	<section id="aboutOneself" class="aboutOneselfSection">
+	<div id="aboutOneself" class="aboutOneselfSection">
 		<header #headerAboutOneSelf class="headerAboutOneSelf">
 			<h2>О себе, о навыках, о сайте.</h2>
-			<p class="contentHeader">Родился в 1970г. в Москве. Занимаюсь Web разработкой и связанными технологиями с 2008г. (с небольшими перерывами). За это время, зная английский язык, занимался самообразованием и освоил несколько технологических стэков, использующихся в клиенской и серверной разработках на JavaScript/TypeScript (некоторые из них демонстрируются в работах ниже). Ранее в своих работах для полного стэка использовал связку <span class="dark-blue">AngularJs / Express(nodejs) / MongoDb</span>, хост которых распологался соответственно на <span class="dark-blue">Heroku</span> и <span class="dark-blue">Mongo Lab</span>. В настоящее время работаю на стеке <span class="dark-blue">Angular 5+ / RxJs / Firebase</span>. В своей работе использую рабочее окружение <span class="dark-blue">WebStorm(Intellij IDEA) / VS-CODE </span>. Отслеживаю современные технологические наработки, через англоязычные источники (Medium, Firebase, Angular, angularfirebase.com и др.), форумы , каналы и личные блоги ведущих разработчиков Google (В.Савкин, М.Коретский, М.Гетчев, Дж.Арчибальд, Дж.Посник, Дж.Делани и др.) Ниже, расположены технологические стэки с которыми работаю, степень освоения которых зависит от текущей специализации, т.е. от задачи, котрая решается в текущий момент. Этот сайт написан на <span class="dark-blue">Angular 5</span>, с использованием <span class="dark-blue">Angular CLI 1.6.*</span>, в которой включена настройка использования сервисного рабочего. Этот сайт развернут на <span class="dark-blue">Google - Firebase (Hosting)</span>, база данных - <span class="dark-blue">Firebase - RealTime DataBase</span>, визуализация некоторых элементов - через <span class="dark-blue">Angular Material</span>. Поскольку сайт развернут на безплатном плане, компания Google накладывает ограничение на использования сторонних библиотек в коде на сервере, поэтому первоначальный механизм передачи данных формы, в виде сообщения сразу на почту, используя библиотеку <span class="dark-blue">nodemailer</span> не выполним. Для коммуникации выбран вариант передачи данных на сервер, а с сервера эти сообщения забирает администратор со своим паролем в административный компонент, поэтому в панели инструментов и распологается кнопка для администратора. Некоторые примеры работ могут быть недописаны по ряду различных причин. Данный ресурс предполагается использовать в качестве странички-резюме.</p>
+			<p class="contentHeader">Родился в 1970г. в Москве. Занимаюсь Web разработкой и связанными технологиями с 2008г. (с небольшими перерывами). За это время, зная английский язык, занимался самообразованием и освоил несколько технологических стэков, использующихся в клиенской и серверной разработках на JavaScript/TypeScript (некоторые из них демонстрируются в работах ниже). Ранее в своих работах для полного стэка использовал связку <span class="dark-blue">AngularJs / Express(nodejs) / MongoDb</span>, хост которых распологался соответственно на <span class="dark-blue">Heroku</span> и <span class="dark-blue">Mongo Lab</span>. В настоящее время работаю на стеке <span class="dark-blue">Angular 5+ / RxJs / Firebase</span>. В своей работе использую рабочее окружение <span class="dark-blue">WebStorm(Intellij IDEA) / VS-CODE </span>. Отслеживаю современные технологические наработки, через англоязычные источники (Medium, Firebase, Angular, angularfirebase.com и др.), форумы , каналы и личные блоги ведущих разработчиков Google (В.Савкин, М.Коретский, М.Гетчев, Дж.Арчибальд, Дж.Посник, Дж.Делани и др.) <br>
+Ниже, расположены технологические стэки с которыми работаю, степень освоения которых зависит от текущей специализации, т.е. от задачи, котрая решается в текущий момент. Этот сайт написан на <span class="dark-blue">Angular 5</span>, с использованием <span class="dark-blue">Angular CLI 1.6.*</span>, в которой включена настройка использования сервисного рабочего. Этот сайт развернут на <span class="dark-blue">Google - Firebase (Hosting)</span>, база данных - <span class="dark-blue">Firebase - RealTime DataBase</span>, визуализация некоторых элементов - через <span class="dark-blue">Angular Material</span>. Поскольку сайт развернут на бесплатном плане, компания Google накладывает ограничение на использования сторонних библиотек в коде на сервере, поэтому первоначальный механизм передачи данных формы, в виде сообщения сразу на почту, используя библиотеку <span class="dark-blue">nodemailer</span> не выполним. Для коммуникации выбран вариант передачи данных на сервер, а с сервера эти сообщения забирает администратор со своим паролем в административный компонент, поэтому в панели инструментов и распологается кнопка для администратора. Некоторые примеры работ могут быть недописаны по ряду различных причин. Данный ресурс предполагается использовать в качестве странички-резюме.</p>
+			<h3>Ключевые компетенции и используемые технологии:
+			</h3>
+			<ul>
+				<li>12+ летний опыт работы веб программирования JavaScript, html5, Css, препроцессора Less. Знание паттернов и типов современного Javascript ECMAScript 2016 / 2017 / 2018</li>
+				<li>9+ летний опыт проектирования масштабируемых высоконагруженных веб приложений</li>
+				<li>6+ летний опыт проектирования высоконагруженных архитектурных решений с использованием современного фреймворка Angular 11, TypeScript, препроцессора Saas, webpack и ручной настройки предзагрузчиков его файла конфигурации webpack.config.js</li>
+				<li>8+ опыт использования технологических стеков серверного программирования NodеJs /Express. Знание современных технологических паттернов серверного проектирования REAST API и взаимодействия клиент-серверной архитектуры, основанной на AJAX.</li>
+				<li>Многолетний опыт работы с документными базами данных MongoDb, Firebase.</li>
+				<li>Опыт оптимизации загрузки / работы веб приложений с использованием современных подходов кэширования данных, выбора стратегии кэширования, согласно Cache Api.</li>
+				<li>Опыт разработки и проектирования современных прогрессивных (PWA) приложения с установкой приложения на мобильное устройство. Native Like.</li>
+				<li>Мобильная разработка с CSS стратегией гибкой верстки (mobile first) и отзывчивого дизайна. Flex Box. CSS фреймворки Angular-Material, Bootstrap и др.</li>
+				<li>Знание современных кроссбраузерных подходов и приемов современного программирования, позволяющего приложениям запускаться и работать во всех современных браузерах, независимо от текущих реализаций и поддержки различных DOM API в отдельных браузерах.</li>
+				<li>Знание асинхронного и реактивных методов разработки с использованием современных реактивных типов RxJs, pipe-able чистых операторов и функций. Горячие и холодные Observables и методы их обработки.</li>
+				<li>Знание современных подходов сохранения и использования состояния приложения на основе современных библиотек NGXS, NGRX.</li>
+
+			</ul>
 		</header>
 		<div #contentAboutOneself class="contentAboutOneself">
 			<mat-card *ngFor="let item of contentAbout" [class]="'contentAboutCard mat-card '+ item.className">
@@ -33,26 +50,28 @@
 				<mat-card-content>{{item.text}}</mat-card-content>
 			</mat-card>
 		</div>
-	</section>
-	<section id="works" #worksListAnchor class="worksSection">
+	</div>
+	<div id="works" #worksListAnchor class="worksSection">
 		<h2 style="margin-bottom: 0">Некоторые мои работы</h2>
 		<p style="padding: 0 24px">Все они написаны на Angular 5.*, компановка Angular CLI с загрузкой модулей по требованию (Lazy Loading), используя предкомпиляцию (AOT). Техникой написания некоторых приложений стала техника PWA(прогрессивных веб приложений), без настройки стратегий кэширования (используются настройки по умолчанию), настройки которой предлагаются в Angular CLI выше версии 1.6.*. Каждому приложению можно заглянуть в GIT. Некоторые работы незакончены.</p>
 		<div  class="worksList">
 			<mat-card *ngFor="let item of worksList; index as inx" [searchItem]="inx"  [class]="'myWorksCard mat-card '+ item.className" style="margin: 0 24px 24px 24px" [style.background-color]="item.bgcolor" >
 				<mat-card-content class="cardContent">
-					<a target="_blank" [href]="item.href"><img class="cardImg" [src]="item.img"></a>
-					<div class="cardContainer" >
-						<h4 style="margin-bottom: 0; text-align: center">{{item.header}}</h4>
-						<p style="padding-bottom: 0" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(item.text)"></p>
-						<a target="_blank" [href]="item.git">git репозиторий</a>
-					</div>
+					<a class="card-lick" target="_blank" [href]="item.href">
+						<img class="cardImg" [src]="item.img">
+						<div class="cardContainer" >
+							<h4 style="margin-bottom: 0; text-align: center">{{item.header}}</h4>
+							<p style="padding-bottom: 0" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(item.text)"></p>
+							<a target="_blank" [href]="item.git">git репозиторий</a>
+						</div>
+					</a>
 				</mat-card-content>
 			</mat-card>
 		</div>
-	</section>
-	<section id="articles" #articlesAnchor class="articlesSection" [@routerTrigger]="getRouterOutletState(mainOutlet)">
+	</div>
+	<div id="articles" #articlesAnchor class="articlesSection" [@routerTrigger]="getRouterOutletState(mainOutlet)">
 		<router-outlet #mainOutlet="outlet"></router-outlet>
-	</section>
+	</div>
 	<section id="contacts" #contactsAnchor class="contactsSection">
 		<h4>Контакты</h4>
 		<p style="padding: 24px">Для контактов со мной, можно воспользоваться формой ниже или просто написать на почту <a  href="mailto:farros@rambler.ru?subject=Сообщение с resume">farros@rambler.ru</a> или <a href="mailto:sovizer@gmail.com?subject=Сообщение с resume">sovizer@gmail.com</a></p>

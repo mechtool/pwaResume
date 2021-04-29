@@ -160,6 +160,9 @@ div.cardContainer{
     font-family: "Yanone Kaffeesatz", sans-serif;
     font-size: 18px;
 }
+a.card-lick{
+    text-decoration: none;
+}
 /*---------------articlesSection-------------------------*/
 .articlesSection{
     background-color: rgb(253, 255, 220);
