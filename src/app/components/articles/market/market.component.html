@@ -1,0 +1,197 @@
+<mat-card >
+  <address>Перевод статьи Максима Корецкого <a target="_blank" href="https://blog.angularindepth.com/exploring-angular-dom-abstractions-80b3ebcfc02">Exploring Angular DOM manipulation techniques using ViewContainerRef</a></address><a style="position: absolute; right: 40px; text-decoration: none" routerLink="/">Назад</a>
+  <h4>Изучение техники DOM манипуляций, используя абстакцию <span class="dark-blue">ViewContainerRef</span></h4>
+  <p>Всякий раз, когда я читаю статьи о работе с DOM в Angular, я часто натыкаюсь на классы <span class="dark-blue">ElementRef, TemplateRef, ViewContainerRef</span> и тому подобные. К сожалению, хотя некоторые из них и упоминаються в документации по Angular и документоподобных статьях, я еще не находил описание полной ментальной модели и примеров работы этих сущностей вместе. Цель данной статьи - описание подобной модели. <br>
+    Если вы пришли с <span class="dark-blue">angular.js</span>, вы знаете, что в нем было довольно легко манипулировать DOM. Angular инжектировал DOM элемент в связующую функцию, и можно было обратиться к любому интересующему узлу в пределах шаблона компонента, добавлять и удалять дочерние узлы, модифицировать стили и т.д. Однако, подобный подход имел большой недостаток - тесная привязка к браузеру.<br>
+    Новая версия Angular работает на нескольких платформах - в браузере, в мобильном устройстве, или внутри сетевого рабочего. Поэтому уровень абстракции должен был остаться между специфичными API для нескольких платформ с одной стороны и интерфейсами самого фреймворка с другой. В ангуляр эти абстракции пришли в форме нескольких ссылочных типов : <span class="dark-blue">ElementRef, TemplateRef, ViewRef, ComponentRef, ViewContainerRef.</span> В этой статье мы подробно остановимся на каждом из них и покажем, как их можно использовать при манипуляции DOM.</p>
+  <h4>@ViewChild</h4>
+  <p>Прежде чем приступить к изучению DOM абстракций, нужно понимать как можно получить поступ к этим абстракциям внутри класса компонента/директивы. Ангуляр предоставляет механизм, называемый DOM запросы. Он реализуется при помощи декораторов <span class="dark-blue" >@ViewChild</span> и <span class="dark-blue">@ViewChildren</span>. Действия их аналогично, кроме того, что последний возвращает не одну ссылку на абстракцию, а несколько, упаковывая их в объект коллекции (список) <span class="dark-blue">QueryList</span>. Далее в статье будет использоваться декоратор @ViewChild без префикса символа <span class="dark-blue">@</span>.<br>
+    Обычно, эти декораторы работают в паре с сылочными переменными шаблона (<a target="_blank" href="https://angular.io/guide/template-syntax#template-reference-variables--var-">template reference variables</a>) - именованными ссылками на DOM элемент в пределах шаблона. Они напоминают селектор идентификатора в атрибуте <span class="dark-blue">id</span> элемента разметки. Т.е. необходимый элемент разметки помечается переменной с префиксом символа <span class="dark-blue">#</span>, а затем, внутри класса (в объекте контекста) используется декоратор <span class="dark-blue">@ViewChild</span> для получения ссылки на этот элемент. Пример ниже: </p>
+  <pre class="codeSample">
+@Component(&#123;
+    selector: 'sample',
+		template: `&#60;span <span class="dark-blue" >#tref</span>&#62;Я - элемент span&#60;/span&#62;`
+&#125;)
+export class SampleComponent implements AfterViewInit &#123;
+
+	@ViewChild("tref", &#123;read: ElementRef&#125;) tref: ElementRef;
+
+    ngAfterViewInit(): void &#123;
+        // выведет `Я-элемент span`
+        console.log(this.tref.nativeElement.textContent);
+    &#125;
+&#125;</pre>
+  <p>Базовый синтаксис декоратора <span class="dark-blue">@ViewChild</span> следующий: </p>
+  <pre class="codeSample">
+@ViewChild([имя тега | шаблонная переменная | тип компонета], &#123;read: [Elementref | TemplateRef | тип компонента | ViewContainerRef]&#125;);</pre>
+  <p>В примере можно видеть определение шаблонной переменной <span class="dark-blue">tref</span> в разметке, через которую в объекте контекста,используя вызов декоратора, получается ссылка на абстракцию <span class="dark-blue">ElementRef</span>, ассоциированную с элементом на котором установлена шаблонная переменная. Второй параметр вызова декоратора - не обязательный объект метаданных, свойсто <span class="dark-blue">read</span> которого указывает на предпочтительный тип считываемого значения. Этот тип может определяться ангуляром автоматически, исходя из типа запрошенного элемента/компонента. К примеру, если это элемент <span class="dark-blue">template</span>, будет возвращен тип <span class="dark-blue">TemplateRef</span>, а если это компонент, то будет возвращен тип компонента. Некоторые типы, к примеру, <span class="dark-blue">ViewContainerRef</span> не могут быть возвращены, основываясь на типе запрошенного элемента, поэтому для его получения нужно запросить его тип в свойстве <span class="dark-blue">read</span> объекта метаданных во втором параметре. Другие типы, такие как <span class="dark-blue">ViewRef</span> не могут быть возвращены из DOM вовсе и дожны быть созданы вручную. </p>
+  <h4>ElementRef</h4>
+  <p>Базовая абстракция, которая содержит единственное свойство <span class="dark-blue">nativeElement</span>, содержащее ссылку на html элемент. </p>
+  <pre class="codeSample">
+// выведет `Я - элемент span`
+console.log(this.tref.nativeElement.textContent);</pre>
+  <p>Подобное обращение к элементу DOM на прямую <a target="_blank" href="https://angular.io/api/core/ElementRef">не желательно</a>, поскольку сохраняет тесную связь браузера, как платформы с кодом приложения (с его уровнем визуализации), что является препятствием реализации парадигмы работы приложения в нескольких контекстах, на различных платформах. И это препятствиее состоит не в обращении к свойству <span class="dark-blue">nativeElement</span>, а в использовании специфического для браузеров свойства <span class="dark-blue">textContext</span>. Но, как мы скоро убедимся, ментальная модель DOM манипуляций, реализованная в ангуляр, не нуждается в подобном низкоуровневом доступе.  <br>
+    <span class="dark-blue">ElementRef</span> может быть возвращен для любого DOM элемента, используя декоратор <span class="dark-blue">ViewChild</span>. Но так как все компонеты являются частью нестандартных элементов, созданных разработчиком и внедренных в разметку, а все директивы могут применятся ко всем элементам разметки, классы этих компонентов и директив могут получать доступ к экземпляру <span class="dark-blue">ElementRef</span> ассоциированного с ними хост элемента черз механизм инжекций зависимостей (DI). Т.е. для получения ссылки на хост элемент (т.е. элемент, к которому применен или компонент, или директива), достаточно в параметре конструктора объявить ссылку на тип <span class="dark-blue">ElementRef</span>:</p>
+  <pre class="codeSample">
+@Component(&#123;
+    selector: 'sample',
+    ...
+export class SampleComponent&#123;
+		constructor(<span class="dark-red" >private hostElement: ElementRef</span>) &#123;
+        //выведет &#60;sample&#62;...&#60;/sample&#62;
+        console.log(this.hostElement.nativeElement.outerHTML);
+    &#125;</pre>
+  <p>Механизм инжекции зависимостей DI используется для получения ссылки на хост элемент, в то время как применение декоратора <span class="dark-blue">ViewChild</span> более распространено для получения ссылок на DOM элементы, находящиеся в пределах представления компонента(в его шаблоне).</p>
+  <h4>TemplateRef</h4>
+  <p>Идея шаблона известна многим разработчикам - группа DOM элементов, многократно использующаяся в представлении по всему приложению. До введения стандартом <span class="dark-blue">HTML5</span> элемента <span class="dark-red">template</span>, большинство шаблонов строились в браузере на основе элемента <span class="dark-red">script</span>, с различными вариациями его атрибута <span class="dark-red">type</span>: </p>
+  <pre class="codeSample">
+&#60;script id="tpl0" type="text/template"&#62;
+    &#60;span&#62;Я - элемент span в шаблоне&#60;/span&#62;
+&#60;/script&#62;</pre>
+  <p>Такой подход имел ряд недостатков в семантике и в необходимости вручную создавать DOM модель. С тегом <span class="dark-red">template</span> браузер анализирует <span class="dark-blue">html</span> и создает DOM дерево, но не отображает его содержимое, которое может быть доступно через свойство элемента <span class="dark-blue">content</span>:</p>
+  <pre class="codeSample">
+&#60;script&#62;
+    let tpl = document.querySelector('#tpl1');
+	let container = document.querySelector('.insert-after-me');
+	container.after(tpl.content);
+&#60;/script&#62;
+	&#60;div class="insert-after-me"&#62;&#60;/div&#62;
+&#60;ng-template id="tpl1"&#62;
+    &#60;span&#62;I am span in template&#60;/span&#62;
+&#60;/ng-template&#62;</pre>
+  <p>Ангуляр принял такой подход и реализовал класс <span class="dark-blue">TemplateRef</span>, работающий с шаблоном. Это класс очень простой и содержит одно свойство <span class="dark-blue">elementRef</span> и один метод <span class="dark-blue">createEmbeddedView()</span> - очень полезный метод, который позволяет создавать представления и возвращать на них ссылку типа <span class="dark-blue">ViewRef</span>. Ниже, пример испоьзования: </p>
+  <pre class="codeSample">
+@Component(&#123;
+    selector: 'sample',
+    template: `&#60;ng-template #tpl&#62;
+            &#60;span&#62;I am span in template&#60;/span&#62;
+        &#60;/ng-template&#62;`
+&#125;)
+export class SampleComponent implements AfterViewInit &#123;
+    @ViewChild("tpl") tpl: TemplateRef&#60;any&#62;; //запрос ссылки на элемент шаблона
+
+    ngAfterViewInit()&#123;
+        let elementRef = this.tpl.elementRef; //получаем физическую ссылку на элемент шаблона
+        // выведет `template bindings=&#123;&#125;`
+        console.log(elementRef.nativeElement.textContent);//выводим содержимое шаблона
+    &#125;
+&#125;)</pre>
+  <p>После компиляции браузер удаляет элемент шаблона из DOM и вставляет в это место такой вот коментарий:</p>
+  <pre class="codeSample">
+&#60;sample&#62;
+	<span class="dark-green" >&#60;!--template bindings=&#123; &#125;--&#62;</span>
+&#60;/sample&#62;</pre>
+  <h4>ViewRef</h4>
+  <p>Этот тип абстракции определяет представление. В ангуляр, представление - это основной строительный блок пользовательского интерфейса приложения, единая группа элементов интерфейса, манипуляции с которой происходят как с единичным элементом. Философия ангуляр предлагает рассматривать пользовательский интерфейс как композицию (набор) представлений, а не дерево отдельных <span class="dark-blue">html</span> тегов. В ангуляре поддерживается два типа представлений: </p>
+  <ul>
+    <li>Встраиваемые представления - представления связанные с элементом шаблона <span class="dark-blue">ng-template</span> </li>
+    <li>Хост представления - представления, пренадлежащие компонентам.</li>
+  </ul>
+  <p>Создание встаиваемого представления происходит из элемента шаблона методом <span class="dark-blue">createEmbeddedView()</span>, на который в коде получается ссылка: </p>
+  <pre class="codeSample">
+ngAfterViewInit() &#123;
+    let view = this.tpl.createEmbeddedView(null);
+&#125;</pre>
+  <p>Хост представления создаются при динамической вставке компонентов методом специального сервиса <span class="dark-blue">ComponentFactoryResolver</span>, который сначала получает фабрику компонента, а затем этой фабрикой создается компонент с его представлением. </p>
+  <pre class="codeSample">
+constructor(private injector: Injector, private r: ComponentFactoryResolver) &#123;
+    let factory = this.r.resolveComponentFactory(ColorComponent);
+    let componentRef = factory.create(injector);
+    let view = componentRef.hostView;
+&#125;</pre>
+  <p>В ангуляр, каждый компонент связан с определенным экземпляром оъекта инжектора, поэтому текущий экземпляр инжектора передается в метод создания компонета фабрикой. Нужно не забывать, что компоненты, созданные динамически должны быть зарегистрированны в области входящих компонентов (свойство <span class="dark-blue">entryComponents</span> типа массива ) модуля или хост-компонента.<br>
+    Итак, когда представление создано оно может быть вставлено в DOM, используя абстракцию <span class="dark-blue">ViewContainer</span>.</p>
+  <h4>ViewContainerRef</h4>
+  <p>Представляет контейнер, куда могут быть вставлены одно или несколько представлений. В мире ангуляра нет методов манипуляции элементами разметки напрямую, поэтому, разработчик не может вставить представления в DOM, используя всеми любимые методы DOM (к примеру <span class="dark-blue">.insertAdjacentElement()</span> ). Вместо этого появляется абстракция, которая представляет место вставки представления, расположенное <span class="dark-blue">СРАЗУ ПОСЛЕ</span> элемента источкика получения ссылки на эту абстракцию. Её можно представить как фрагмент документа <span class="dark-blue">DocumentFragment</span>, расположенный сразу после элемента источника, целью отображения которого, являются его элементы содержимого, а не он сам. Нужно понимать, что любой DOM элемент может быть использован как контейнер представления, но ангуляр не вставляет представление в его содержимое, а использует его как метку в разметке, добавляя представления сразу после него (согласно потока документа), на однном уровне. Такое правило вставки использует и элемент маршрутизации <span class="dark-blue">router-outlet</span>.<br>
+    Обычно, отличным местом для метки места, где нужно создать <span class="dark-blue">ViewContainer</span> является элемент <span class="dark-blue">ng-container</span>, который визуализируется как комментарий, и поэтому, не вводит в DOM лишних элементов. Ниже, пример создания <span class="dark-blue">ViewContainer</span> в определенном месте в шаблоне компонента:  </p>
+  <pre class="codeSample">
+@Component(&#123;
+    selector: 'sample',
+    template: `&#60;span&#62;Я - первый span&#60;/span&#62;
+        &#60;ng-container #vc&#62;&#60;/ng-container&#62;
+        &#60;span&#62;Я - последний span&#60;/span&#62;`
+&#125;)
+export class SampleComponent implements AfterViewInit &#123;
+    @ViewChild("vc", &#123;read: ViewContainerRef&#125;) vc: ViewContainerRef;
+
+    ngAfterViewInit(): void &#123;
+        // выведет строку `template bindings=&#123;&#125;`
+        console.log(this.vc.element.nativeElement.textContent);
+    &#125;
+&#125;</pre>
+  <p>Так же, как и другие абстракции, <span class="dark-blue">iewContainerRef</span> связан с определенным DOM элементом, доступным через свойство <span class="dark-blue">element</span>. В примере выше, он связан с элементом <span class="dark-blue">ng-container</span>, отображаемым как элемент комментария, поэтому имеющий строковое значение <span class="dark-green">template bindings=&#123;&#125;</span>.</p>
+  <h5>Манипуляция представлениями.</h5>
+  <p><span class="dark-blue">ViewContainerRef</span> предоставляет удобный API для манипуляции представлениями: </p>
+  <pre class="codeSample">
+class ViewContainerRef &#123;
+    ...
+    clear() : void
+    insert(viewRef: ViewRef, index?: number) : ViewRef
+    get(index: number) : ViewRef
+    indexOf(viewRef: ViewRef) : number
+    detach(index?: number) : ViewRef
+    move(viewRef: ViewRef, currentIndex: number) : ViewRef
+&#125;</pre>
+  <p>Выше было показано, как вручную создать два типа представления из элнмента шаблона и компонента. Как только создается представление, можно вставить его в DOM, используя метод <span class="dark-blue">.insert()</span>. Пример ниже показывает создание встраиваемого представления ихз элемента шаблона и вставки его в определенное место, отмеченное элементом <span class="dark-blue">ng-container</span>:</p>
+  <pre class="codeSample">
+@Component(&#123;
+    selector: 'sample',
+    template: `&#60;span&#62;Я - первый span&#60;/span&#62;
+        &#60;ng-container #vc&#62;&#60;/ng-container&#62;
+        &#60;span&#62;Я - последний span&#60;/span&#62;
+        &#60;ng-template #tpl&#62;
+            &#60;span&#62;Я - span в шаблоне&#60;/span&#62;
+        &#60;/ng-template&#62;`
+&#125;)
+export class SampleComponent implements AfterViewInit &#123;
+    @ViewChild("vc", &#123;read: ViewContainerRef&#125;) vc: ViewContainerRef;
+    @ViewChild("tpl") tpl: TemplateRef&#60;any&#62;;
+
+    ngAfterViewInit() &#123;
+        let view = this.tpl.createEmbeddedView(null);
+        this.vc.insert(view);
+    &#125;
+&#125;</pre>
+  <p>Результатом выполнения кода выше является html:</p>
+  <pre class="codeSample">
+&#60;sample&#62;
+    &#60;span&#62;Я - первый span&#60;/span&#62;
+	&#60;!--template bindings=&#123;&#125;--&#62;
+    &#60;span&#62;Я -span  в шаблоне&#60;/span&#62;
+
+    &#60;span&#62;Я - последний span&#60;/span&#62;
+	&#60;!--template bindings= &#123; &#125;--&#62;
+&#60;/sample&#62;</pre>
+  <p>Для удаления представления из DOM используется метод <span class="dark-blue">detach()</span>. Остальные методы самообъясняющие и могут быть использованы для получения ссылок на представления по индексу, вставлять представление в другое место, или удалять представление из контайнера</p>
+  <h4>Создание представлений.</h4>
+  <p><span class="dark-blue">ViewContainerRef</span> так же предоставляет API для автоматического создания представления, что является удобной оберткой над действиями выполненными выше вручную. Эти методы создают представления из элементов шаблона или сомпонента и вставляют их в указанную локацию. </p>
+  <pre class="codeSample">
+class ViewContainerRef &#123;
+    element: ElementRef
+    length: number
+
+    createComponent(componentFactory...): ComponentRef&#60;C&#62;
+    createEmbeddedView(templateRef...): EmbeddedViewRef&#60;C&#62;
+    ...
+&#125;</pre>
+  <h4>ngTemplateOutlet и ngComponentOutlet</h4>
+  <p>Всегда хорошо знать как работает основной механизм, однако неплохо иметь механизмы по-короче. Таким механизмом являются две директивы : <span class="dark-red">ngTemplateOutlet</span> и <span class="dark-red">ngComponentOutlet</span>. На момент написания статьи, обе директивы являются экспериментальными, но их назначения очень легко понять. <br>
+    <span class="dark-red">ngTemplateOutlet</span> - директива, помечающая DOM элемент, как <span class="dark-blue">ViewContainer</span> и вставляющая встраиваемое представление, созданное шаблоном, без необходимости явного обращения в класс компонента. Это значит, что пример выше, где мы создаем представление и вставляем его в DOM элемент с шаблонной переменной <span class="dark-blue">#vc</span> может быть переписан по другому, в нем нет необходимости использовать код создания представления в классе компонента: </p>
+  <pre class="codeSample">
+@Component(&#123;
+    selector: 'sample',
+    template: `&#60;span&#62;Я - первый span&#60;/span&#62;
+		&#60;ng-container <span class="dark-red" >&#91;ngTemplateOutlet&#93;</span>="tpl"&#62;&#60;/ng-container&#62;
+        &#60;span&#62;Я - последний span&#60;/span&#62;
+        &#60;ng-template #tpl&#62;
+            &#60;span&#62;Я - span в шаблоне&#60;/span&#62;
+        &#60;/ng-template&#62;`
+&#125;)
+export class SampleComponent &#123;&#125;</pre>
+  <p><span class="dark-red">ngComponentOutlet</span> - эта директива аналогична <span class="dark-red">ngTemplateOutlet</span>, только создает <span class="dark-blue">хост представление</span> (создает компонент), принимая во входной параметр ссылку на вставляемый компонент используется следующим образом:</p>
+  <pre class="codeSample">
+&#60;ng-container <span class="dark-red" >*ngComponentOutlet</span>="ColorComponent"&#62;&#60;/ng-container&#62;</pre>
+  <h4>Заключение.</h4>
+  <p>Кажется, что информацию трудно переварить, но в действительности она довольно понятно структурирована, расположена в ясной ментальной моделе манипуляцией DOM, через метку на представление. Разработчик получает ссылку на DOM абстракцию, используя запрос <span class="dark-red">ViewChild</span> с параметром на ссылочную переменную шаблона. В результате получается простая обертка <span class="dark-red">ElementRef</span>, если запрос произошел к DOM элементу. Для шаблонов у нас есть <span class="dark-red">TemplateRef</span>, которая позволяет создавать встраиваемое представление. Хост представления достижимы на <span class="dark-red">componentRf</span>
+    , создаваемые через <span class="dark-red">ComponentFactoryResolver</span>. Манипуляция представлениями осуществляется через <span class="dark-red">ViewContainerRef</span>. Две директивы делают процесс манипулирования автоматическим: <span class="dark-red">ngTemplateOutlet</span> - для встраиваемых представлений, и <span class="dark-red">ngComponentOutlet</span> - для хостр представлений (динамически создаваемых компонент).</p>
+</mat-card>
