@@ -16,9 +16,29 @@ import { AdminPanelComponent } from "./components/admin-panel/admin-panel.compon
 
 //-----------services------------------------------------------
 //----------material modules--------------------------------------
-import {MatButtonModule, MatIconModule, MatInputModule, MatToolbarModule, MatProgressBarModule, MatProgressSpinnerModule} from "@angular/material";
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatInputModule,
+  MatToolbarModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule} from "@angular/material";
 import {MatCardModule} from '@angular/material/card';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import * as firebase from "firebase";
+const firebaseConfig = {
+  apiKey: "AIzaSyALHdjufpTuwLNc6x3r1riiBcq3P5LGnE4",
+  authDomain: "resume-4cb3d.firebaseapp.com",
+  databaseURL: "https://resume-4cb3d.firebaseio.com",
+  projectId: "resume-4cb3d",
+  storageBucket: "resume-4cb3d.appspot.com",
+  messagingSenderId: "282908447778",
+  appId: "1:282908447778:web:51669d031773673bfe667b"
+};
+
+/*
+firebase.initializeApp(firebaseConfig);
+*/
 
 
 @NgModule({
@@ -44,9 +64,10 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatInputModule,
     FlexLayoutModule,
     MatProgressBarModule,
-      MatProgressSpinnerModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
