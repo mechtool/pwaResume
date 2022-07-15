@@ -56,11 +56,11 @@
 		<div  class="worksList">
 			<mat-card *ngFor="let item of worksList; index as inx" [searchItem]="inx"  [class]="'myWorksCard mat-card '+ item.className" style="margin: 0 24px 24px 24px" [style.background-color]="item.bgcolor" >
 				<mat-card-content class="cardContent">
-					<a class="card-lick" target="_blank" [href]="item.href">
+					<a class="card-lick" target="_blank" [href]="item.href" (click)="!['1c-market'].includes(item.className)">
 						<img class="cardImg" [src]="item.img">
 						<div class="cardContainer" >
 							<h4 style="margin-bottom: 0; text-align: center">{{item.header}}</h4>
-							<p style="padding-bottom: 0" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(item.text)"></p>
+							<p style="padding-bottom: 0" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(item.text)"  (mouseup)="onClickNextButton(2, this.menuAnchors, $event)"></p>
 							<a target="_blank" [href]="item.git">{{ ['1c-market', 't1-consulting'].includes(item.className) ? 'сайт' : 'git репозиторий'}}</a>
 						</div>
 					</a>
