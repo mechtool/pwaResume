@@ -145,6 +145,7 @@ mat-card.myWorksCard{
     padding: 0 24px 24px 24px;
     transform: translateX(100%);
     transition: 1000ms;
+    min-width: 90%;
 }
 mat-card.myWorksCard.active{
     transform: translateX(0);
